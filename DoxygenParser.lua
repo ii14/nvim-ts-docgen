@@ -1,12 +1,6 @@
-local function mk_lookup(t)
-  local r = {}
-  for _, v in ipairs(t) do
-    r[v] = true
-  end
-  return r
-end
+local util = require('util')
 
-local COMMANDS = mk_lookup {
+local COMMANDS = util.mk_lookup {
   'deprecated',
   'note',
   'param',

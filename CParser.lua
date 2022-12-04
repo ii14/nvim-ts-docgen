@@ -1,22 +1,7 @@
 local TS = vim.treesitter
+local util = require('util')
 
 TS.set_query('c', 'injections', '') -- https://github.com/neovim/neovim/issues/21275
-
-local function dedent(lines)
-  local indent = math.huge
-  for _, line in ipairs(lines) do
-    local col = line:find('[^ ]') -- TODO: handle hard tabs?
-    if col and col < indent then
-      indent = col
-    end
-  end
-  if indent < math.huge then
-    for i, line in ipairs(lines) do
-      lines[i] = line:sub(indent)
-    end
-  end
-  return lines
-end
 
 local Parser = { __index = {} }
 
@@ -91,7 +76,7 @@ function Parser.__index:parse_function(node)
 
   local desc = {}
   if self._comments ~= nil and node:start() == self._comment_line + 1 then
-    desc, self._comments = dedent(self._comments), nil
+    desc, self._comments = util.dedent(self._comments), nil
   end
 
   self.result[name] = {
