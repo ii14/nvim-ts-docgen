@@ -1,4 +1,4 @@
-NVIM ?= nvim
+NVIM_BIN ?= nvim
 out.txt:
-	$(NVIM) --headless -c 'so main.lua' -c 'qa!'
+	$(NVIM_BIN) --headless -c 'so main.lua' -c 'qa!'
 .PHONY: out.txt

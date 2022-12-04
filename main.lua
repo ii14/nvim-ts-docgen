@@ -1,5 +1,5 @@
-local C = dofile('CParser.lua')
-local Doxygen = dofile('DoxygenParser.lua')
+local C = require('CParser')
+local Doxygen = require('DoxygenParser')
 
 local BASE_DIR = assert(vim.env.NVIM_SRC, 'set $NVIM_SRC to the neovim source code directory')
 
