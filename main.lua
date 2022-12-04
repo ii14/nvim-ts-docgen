@@ -18,19 +18,28 @@ local FILES = {
   'window.c',
 }
 
+local lines = {}
+local function append(line)
+  table.insert(lines, line)
+end
+
 for _, file in ipairs(FILES) do
   local path = BASE_DIR .. '/src/nvim/api/' .. file
-  print(file)
+  append(file)
   local fns = C.parse(path)
   for _, fn in pairs(fns) do
-    print(fn.name)
-    print('  return = ' .. fn.ret)
-    print('  args = [' .. table.concat(fn.args, ', ') .. ']')
-    print('  attrs = [' .. table.concat(fn.attrs, ', ') .. ']')
-    Doxygen.parse(fn.desc)
-    -- for _, line in ipairs(fn.desc) do
-    --   print('    ' .. line)
-    -- end
-    print('\n')
+    append(fn.name)
+    append('  return = ' .. fn.ret)
+    append('  args = [' .. table.concat(fn.args, ', ') .. ']')
+    append('  attrs = [' .. table.concat(fn.attrs, ', ') .. ']')
+    for _, line in ipairs(Doxygen.parse(fn.desc)) do
+      append('    ' .. line)
+    end
+    append('')
   end
 end
+
+local file = assert(io.open('out.txt', 'w'))
+file:write(table.concat(lines, '\n'))
+file:flush()
+file:close()

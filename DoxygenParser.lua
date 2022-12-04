@@ -70,12 +70,13 @@ end
 
 return {
   parse = function(lines)
-    local res = split_paragraphs(lines)
-    for _, p in ipairs(res) do
-      print('    [' .. (p.cmd or 'paragraph') .. ']')
+    local res = {}
+    for _, p in ipairs(split_paragraphs(lines)) do
+      table.insert(res, '[' .. (p.cmd or 'paragraph') .. ']')
       for _, line in ipairs(p) do
-        print('      ' .. line)
+        table.insert(res, '  ' .. line)
       end
     end
+    return res
   end,
 }
