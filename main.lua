@@ -1,4 +1,5 @@
 local C = dofile('CParser.lua')
+local Doxygen = dofile('DoxygenParser.lua')
 
 local BASE_DIR = assert(vim.env.NVIM_SRC, 'set $NVIM_SRC to the neovim source code directory')
 
@@ -26,9 +27,10 @@ for _, file in ipairs(FILES) do
     print('  return = ' .. fn.ret)
     print('  args = [' .. table.concat(fn.args, ', ') .. ']')
     print('  attrs = [' .. table.concat(fn.attrs, ', ') .. ']')
-    for _, line in ipairs(fn.desc) do
-      print('    ' .. line)
-    end
+    Doxygen.parse(fn.desc)
+    -- for _, line in ipairs(fn.desc) do
+    --   print('    ' .. line)
+    -- end
     print('\n')
   end
 end
